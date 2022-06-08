@@ -139,7 +139,7 @@ func NewReaderEncrypted(f io.ReaderAt, size int64, pw func() string) (*Reader, e
 	for len(buf) > 0 && buf[len(buf)-1] == '\n' || buf[len(buf)-1] == '\r' {
 		buf = buf[:len(buf)-1]
 	}
-	buf = bytes.TrimRight(buf, "\r\n\t ")
+	buf = bytes.TrimRight(buf, "\r\n\t\x00 ")
 	if !bytes.HasSuffix(buf, []byte("%%EOF")) {
 		return nil, fmt.Errorf("not a PDF file: missing %%%%EOF")
 	}
